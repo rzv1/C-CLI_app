@@ -70,7 +70,8 @@ void show_cars(Repo* repo) {
 		return;
 	}
 	else for (int i = 0; i < get_size(repo); i++) {
-		Car* car = &repo->car[i];
+		//Function call need here
+		Car* car = &repo->cars[i];
 		printf("ID: %d. License: %s Model: %s Type: %s %s",
 			get_id(car),
 			get_license(car),

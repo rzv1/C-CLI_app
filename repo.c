@@ -13,10 +13,29 @@ Repo* create_repo() {
 	*/
 	Repo* repo = malloc(sizeof(Repo));
 	if (repo != NULL) {
-		repo->size = 0;
-		repo->next_id = 1;
+		repo->cars = malloc(INITIAL_CAPACITY * sizeof(Car));
+		if (repo->cars != NULL) {
+			repo->size = 0;
+			repo->capacity = INITIAL_CAPACITY;
+			repo->next_id = 1;
+		}
 	}
 	return repo;
+}
+
+void ensure_capacity(Repo* repo) {
+	/*
+	Functie care asigura capacitatea necesara pentru a adauga o masina in repository
+
+	repo: repository-ul pentru care se asigura capacitatea
+	*/
+	if (repo->size == repo->capacity) {
+		repo->capacity *= 2;
+		Car* new_cars = realloc(repo->cars, repo->capacity * sizeof(Car));
+		if (new_cars != NULL) {
+			repo->cars = new_cars;
+		}
+	}
 }
 
 void repo_add_car(Repo* repo, Car* car) {
@@ -26,8 +45,9 @@ void repo_add_car(Repo* repo, Car* car) {
 	repo: repository ul in care se adauga masina
 	car: masina care se adauga
 	*/
+	ensure_capacity(repo);
 	car->ID = repo->next_id++;
-	repo->car[repo->size++] = *car;
+	repo->cars[repo->size++] = *car;
 }
 
 void destroy_repo(Repo* repo) {
@@ -37,8 +57,9 @@ void destroy_repo(Repo* repo) {
 	repo: repository ul care se distruge
 	*/
 	for (int i = 0; i < get_size(repo); i++) {
-		destroy_car(&repo->car[i]);
+		destroy_car(&repo->cars[i]);
 	}
+	free(repo->cars);
 	free(repo);
 }
 
@@ -63,8 +84,8 @@ Car* find_by_id(Repo* repo, int id) {
 	return: masina gasita sau NULL
 	*/
 	for (int i = 0; i < get_size(repo); i++) {
-		if (repo->car[i].ID == id) {
-			return &repo->car[i];
+		if (repo->cars[i].ID == id) {
+			return &repo->cars[i];
 		}
 	}
 	return NULL;
@@ -82,7 +103,7 @@ Car* find_by_index(Repo* repo, int index) {
 	if (index < 0 || index >= get_size(repo)) {
 		return NULL;
 	}
-	return &repo->car[index];
+	return &repo->cars[index];
 }
 
 bool update_license(Repo* repo, int id, const char* license) {

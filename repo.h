@@ -7,11 +7,12 @@
 #include "domain.h"
 #include <stdbool.h>
 
-#define REPO_SIZE 100
+#define INITIAL_CAPACITY 1
 
 typedef struct Repo {
-    Car car[REPO_SIZE];
+    Car* cars;
     int size;
+    int capacity;
     int next_id;
 }Repo;
 
