@@ -63,6 +63,17 @@ void destroy_repo(Repo* repo) {
 	free(repo);
 }
 
+Car* get_cars(Repo* repo) {
+	/*
+	 * Functie care returneaza toate obiectele din repo
+	 *
+	 * repo: repository-ul din care se returneaza obiectele
+	 *
+	 * Return: pointer la un vector de obiecte
+	 */
+	return repo->cars;
+}
+
 int get_size(Repo* repo) {
 	/*
 	Functie care returneaza size ul repository-ului

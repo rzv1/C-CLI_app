@@ -69,15 +69,17 @@ void show_cars(Repo* repo) {
 		printf("Nu exista masini!\n");
 		return;
 	}
-	else for (int i = 0; i < get_size(repo); i++) {
-		//Function call need here
-		Car* car = &repo->cars[i];
-		printf("ID: %d. License: %s Model: %s Type: %s %s",
-			get_id(car),
-			get_license(car),
-			get_model(car),
-			get_category(car),
-			get_is_rented(car) ? "| Inchiriata\n" : "\n");
+	else {
+		Car* cars = get_cars(repo);
+		for (int i = 0; i < get_size(repo); i++) {
+			Car* car = &cars[i];
+			printf("ID: %d. License: %s Model: %s Type: %s %s",
+				get_id(car),
+				get_license(car),
+				get_model(car),
+				get_category(car),
+				get_is_rented(car) ? "| Inchiriata\n" : "\n");
+		}
 	}
 }
 

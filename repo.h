@@ -26,6 +26,8 @@ Repo* create_repo();
 */
 void destroy_repo(Repo* repo);
 
+Car* get_cars(Repo* repo);
+
 /*
 * Getter pentru size-ul repository-ului
 */
